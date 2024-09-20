@@ -4,6 +4,8 @@ from typing import Optional
 from sqlalchemy import create_engine, text
 from time import sleep
 from tqdm import tqdm
+import pandas as pd
+
 
 def scrape_prices(item_id :int, timestep: str, sleep_seconds: int = 1) -> Optional[dict]:
     sleep(sleep_seconds)
@@ -15,6 +17,7 @@ def scrape_prices(item_id :int, timestep: str, sleep_seconds: int = 1) -> Option
     
     print(f"Error: {response.status_code}", item_id, timestep)
     return None
+
 
 def insert_prices(conn, data: dict, item_id: int, timestep: str) -> None:
     for entry in data:
@@ -72,3 +75,27 @@ def scrape_prices_all_items(timestep: str, verbose: bool = False) -> None:
             data = scrape_prices(item_id, timestep)
             if data:
                 insert_prices(conn, data, item_id, timestep)
+
+
+def get_prices(item_id: Optional[int] = None, timestep: Optional[str] = None):
+    engine = create_engine('sqlite:///../data/runescape_prices.db')
+
+    query = 'SELECT * FROM prices'
+    conditions = []
+
+    if item_id is not None:
+        conditions.append(f'item_id = {item_id}')
+    
+    if timestep is not None:
+        conditions.append(f'timestep = "{timestep}"')
+
+    if conditions:
+        query += ' WHERE ' + ' AND '.join(conditions)
+    
+    with engine.connect() as conn:
+        result = pd.read_sql(query, conn)
+    
+    tz = 'Australia/Sydney'
+    result['datetime'] = pd.to_datetime(result.timestamp, unit='s').dt.tz_localize('UTC').dt.tz_convert(tz)
+    
+    return result.reset_index(drop=1)
