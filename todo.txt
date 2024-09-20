@@ -1,0 +1,42 @@
+- Try grab a few different data sources
+
+- Try predict different time horizons
+
+# Constraints
+- https://oldschool.runescape.wiki/w/Grand_Exchange
+- Items can only be bought at a certain quantity per 4 hours
+- This can go across multiple items like Prayer Potions and 4-dose Prayer Potions
+- New account trade restrictions prohibit trading the following items until all 3 of:
+    - Account has 20 hours play time
+    - 10 quest points are acquired
+    - Reaching total lvl 100
+    - Oak logs, Willow logs, Yew logs, Raw shrimps, Shrimps, Raw anchovies, Anchovies, Raw lobster, Lobster, Clay, Soft clay, Copper ore	, Tin ore, Iron ore, Silver ore, Gold ore, Coal, Mithril ore, Adamantite ore, Runite ore, Cowhide, Vial, Vial of water, Jug of water, Fishing bait, Feather, Eye of newt, Wine of zamorak, Air rune, Water rune, Earth rune, Fire rune, Mind rune, Chaos rune
+- Jagex periodically purchases these items from players to keep the price stable
+    - Abyssal bludgeon, Amulet of torture, Ancestral hat, Ancestral robe top, Ancestral robe bottom, Arcane and Spectral spirit shields, Archers ring, Armadyl armour, Avernic defender hilt, Bandos armour, Berserker ring, Dark bow, Dinh's bulwark, Dragon pickaxe, Dragon warhammer, Dragon hunter lance, Elder maul, Elidinis' ward, Godswords (Ancient, Armadyl, Bandos, Saradomin, Zamorak), Hydra's claw, Inquisitor's armour, Inquisitor's mace, Kodai insignia, Kodai wand, Kraken tentacle, Lightbearer, Masori mask (f), Masori body (f), Masori chaps (f), Necklace of anguish, Nightmare staff and orbs (Eldritch, Harmonised, Volatile), Occult necklace, Osmumten's fang, Prayer scrolls (Arcane, Dexterous, Torn), Ring of suffering, Sanguinesti staff, Sarachnis cudgel, Saradomin sword, Scythe of vitur, Seers ring, Smoke battlestaff, Tormented bracelet, Torva full helm, Torva platebody, Torva platelegs, Toxic blowpipe, Trident of the seas, Tumeken's shadow, Twisted buckler, Warrior ring, Zamorakian spear, Zaryte crossbow, Zaryte vambraces, Zenyte (cut and uncut), Zenyte shard
+- These items are exempt from tax
+    - Old school bonds, Chisel, Gardening trowel, Glassblowing pipe, Hammer, Needle, Pestle and mortar, Rake, Saw, Secateurs, Seed dibber, Shears, Spade, Watering can (0)
+
+- May only be able to trade non-member items?
+- Some data available here : https://github.com/chriskok/GEPrediction-OSRS
+
+
+
+# Sources
+URL for the OSRS price API
+Scrape all items from:
+https://secure.runescape.com/m=itemdb_oldschool/api/catalogue/items.json?category=1&alpha=a&page=1
+Though I think this might just be all items: 
+https://chisel.weirdgloop.org/gazproj/gazbot/os_dump.json
+Get item name from:
+https://secure.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item=2
+url = "http://services.runescape.com/m=itemdb_oldschool/api/graph/2.json"
+
+Price - High/Low & Volume: (last 365 samples)
+https://prices.runescape.wiki/api/v1/osrs/timeseries?timestep=5m&id=2
+https://prices.runescape.wiki/api/v1/osrs/timeseries?timestep=1h&id=2
+https://prices.runescape.wiki/api/v1/osrs/timeseries?timestep=6h&id=2
+https://prices.runescape.wiki/api/v1/osrs/timeseries?timestep=24h&id=2
+
+Prices - 3382 samples (2 days apart?)
+https://api.weirdgloop.org/exchange/history/osrs/all?id=2&compress=false
+Check against https://www.osrs.exchange/
